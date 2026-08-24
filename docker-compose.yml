@@ -1,0 +1,15 @@
+services:
+  app:
+    build: .
+    container_name: ioeverse-app
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    environment:
+      # Override the DB host so the app container reaches the already-running
+      # postgres container through Docker Desktop's host gateway.
+      DATABASE_URL: postgresql://postgres:ioeverse123@host.docker.internal:5435/ioeverse
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped

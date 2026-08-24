@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Programs | IOEverse</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --navy:#0f1f3d; --purple:#6366f1; --accent:#f59e0b; --cream:#fafaf8; --gray:#6b7280; --border:#e5e7eb; }
+    body { font-family:'Inter',sans-serif; background:var(--cream); min-height:100vh; }
+
+    /* NAV */
+    nav { background:#fff; border-bottom:1px solid var(--border); padding:0 48px; height:64px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:10; }
+    .nav-logo { font-size:20px; font-weight:800; color:var(--navy); display:flex; align-items:center; gap:8px; }
+    .nav-logo span { width:30px; height:30px; background:var(--purple); border-radius:8px; display:grid; place-items:center; font-size:14px; color:#fff; }
+    .nav-right { display:flex; align-items:center; gap:16px; }
+    .nav-right a { font-size:14px; color:var(--gray); text-decoration:none; font-weight:500; }
+    .nav-right a:hover { color:var(--navy); }
+    .btn-nav { background:var(--purple); color:#fff; padding:8px 18px; border-radius:8px; font-size:13px; font-weight:600; border:none; cursor:pointer; font-family:'Inter',sans-serif; }
+
+    /* HERO */
+    .hero { background:var(--navy); padding:64px 48px; position:relative; overflow:hidden; }
+    .hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 70% 50%,rgba(99,102,241,0.3) 0%,transparent 60%); }
+    .hero-inner { position:relative; z-index:1; max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:40px; }
+    .hero-text {}
+    .hero-tag { display:inline-flex; align-items:center; gap:6px; background:rgba(245,158,11,0.15); border:1px solid rgba(245,158,11,0.3); color:var(--accent); font-size:11px; font-weight:700; padding:4px 12px; border-radius:20px; margin-bottom:16px; text-transform:uppercase; letter-spacing:0.5px; }
+    .hero h1 { font-size:36px; font-weight:800; color:#fff; line-height:1.2; margin-bottom:12px; }
+    .hero h1 em { font-style:normal; color:var(--accent); }
+    .hero p { color:rgba(255,255,255,0.65); font-size:15px; max-width:480px; line-height:1.6; }
+    .hero-stats { display:flex; gap:32px; margin-top:28px; }
+    .hero-stat .num { font-size:28px; font-weight:800; color:#fff; }
+    .hero-stat .lbl { font-size:11px; color:rgba(255,255,255,0.5); text-transform:uppercase; letter-spacing:0.5px; margin-top:2px; }
+    .hero-img { width:200px; height:200px; border-radius:24px; overflow:hidden; flex-shrink:0; box-shadow:0 20px 60px rgba(0,0,0,0.4); border:3px solid rgba(255,255,255,0.1); }
+    .hero-img img { width:100%; height:100%; object-fit:cover; object-position:top; }
+
+    /* SEARCH */
+    .search-bar { max-width:1100px; margin:0 auto; padding:0 48px; transform:translateY(-28px); }
+    .search-inner { background:#fff; border-radius:14px; padding:16px 20px; box-shadow:0 8px 32px rgba(0,0,0,0.1); display:flex; align-items:center; gap:12px; border:1px solid var(--border); }
+    .search-inner input { flex:1; border:none; outline:none; font-size:15px; font-family:'Inter',sans-serif; color:var(--navy); background:transparent; }
+    .search-inner input::placeholder { color:#9ca3af; }
+    .search-inner span { font-size:20px; }
+
+    /* CONTENT */
+    .content { max-width:1100px; margin:0 auto; padding:0 48px 64px; }
+    .section-header { margin-bottom:28px; }
+    .section-header h2 { font-size:22px; font-weight:800; color:var(--navy); margin-bottom:4px; }
+    .section-header p { color:var(--gray); font-size:14px; }
+
+    /* COURSE GRID */
+    .course-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:20px; }
+
+    .course-card {
+      background:#fff;
+      border-radius:16px;
+      padding:28px;
+      border:1.5px solid var(--border);
+      cursor:pointer;
+      transition:all 0.25s ease;
+      position:relative;
+      overflow:hidden;
+    }
+    .course-card::before {
+      content:'';
+      position:absolute;
+      top:0; left:0; right:0; height:4px;
+      background:var(--card-color,var(--purple));
+      border-radius:16px 16px 0 0;
+    }
+    .course-card:hover { transform:translateY(-4px); box-shadow:0 12px 40px rgba(0,0,0,0.1); border-color:transparent; }
+
+    .card-icon { font-size:32px; margin-bottom:16px; display:block; }
+    .card-title { font-size:17px; font-weight:700; color:var(--navy); margin-bottom:6px; }
+    .card-desc { font-size:13px; color:var(--gray); line-height:1.5; margin-bottom:16px; }
+    .card-meta { display:flex; align-items:center; justify-content:space-between; }
+    .card-badge { font-size:11px; font-weight:600; padding:4px 10px; border-radius:20px; background:rgba(99,102,241,0.08); color:var(--purple); }
+    .card-arrow { width:32px; height:32px; background:var(--card-color,var(--purple)); border-radius:8px; display:grid; place-items:center; color:#fff; font-size:16px; transition:transform 0.2s; }
+    .course-card:hover .card-arrow { transform:translateX(3px); }
+
+    @media(max-width:768px) { .hero-inner{flex-direction:column;} .hero-img{display:none;} nav,content,.search-bar{padding-left:20px;padding-right:20px;} .hero{padding:40px 20px;} }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-logo"><span>I</span> IOEverse</div>
+    <div class="nav-right">
+      <a href="/quiz">Quiz</a>
+      <a href="#">Notes</a>
+      <button class="btn-nav" onclick="window.location.href='/'">Log Out</button>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <div class="hero-tag">IOE Engineering</div>
+        <h1>Choose Your<br><em>Engineering</em> Branch</h1>
+        <p>Select your program to explore semesters, subjects, AI-powered study tools, and chapter-wise quizzes.</p>
+        <div class="hero-stats">
+          <div class="hero-stat"><div class="num">12</div><div class="lbl">Programs</div></div>
+          <div class="hero-stat"><div class="num">8</div><div class="lbl">Semesters</div></div>
+          <div class="hero-stat"><div class="num">AI</div><div class="lbl">Powered</div></div>
+        </div>
+      </div>
+      <div class="hero-img"><img src="/static/image/pro.jpg" alt="Student" /></div>
+    </div>
+  </div>
+
+  <div class="search-bar">
+    <div class="search-inner">
+      <span>🔍</span>
+      <input type="text" id="searchInput" placeholder="Search engineering programs…" />
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="section-header">
+      <h2>All Engineering Programs</h2>
+      <p>Click on a program to explore its curriculum</p>
+    </div>
+    <div class="course-grid" id="courseGrid"></div>
+  </div>
+
+  <script>
+    const courses = [
+      { name:'Electronics, Communication & IT', icon:'EC', desc:'Signals, circuits, communication systems & embedded systems.', color:'#6366f1', sem:'8 Semesters' },
+      { name:'Civil Engineering',               icon:'CV', desc:'Structures, geotechnics, transportation & water resources.',    color:'#f59e0b', sem:'8 Semesters' },
+      { name:'Electrical Engineering',           icon:'EE', desc:'Power systems, machines, control & renewable energy.',          color:'#10b981', sem:'8 Semesters' },
+      { name:'Computer Engineering',             icon:'CE', desc:'Software, AI, networking, databases & systems.',                color:'#3b82f6', sem:'8 Semesters' },
+      { name:'Mechanical Engineering',           icon:'ME', desc:'Thermodynamics, fluid mechanics & manufacturing.',             color:'#ef4444', sem:'8 Semesters' },
+      { name:'Automobile Engineering',           icon:'AU', desc:'Vehicle dynamics, engines & automobile systems.',              color:'#f97316', sem:'8 Semesters' },
+      { name:'Geomatics Engineering',            icon:'GE', desc:'Surveying, GIS, remote sensing & spatial data.',               color:'#14b8a6', sem:'8 Semesters' },
+      { name:'Industrial Engineering',           icon:'IE', desc:'Operations research, manufacturing & quality systems.',        color:'#8b5cf6', sem:'8 Semesters' },
+      { name:'Agriculture Engineering',          icon:'AG', desc:'Farm machinery, irrigation & post-harvest technology.',        color:'#22c55e', sem:'8 Semesters' },
+      { name:'Architecture',                     icon:'AR', desc:'Architectural design, urban planning & construction.',        color:'#ec4899', sem:'8 Semesters' },
+      { name:'Aerospace Engineering',            icon:'AE', desc:'Aerodynamics, propulsion, avionics & flight systems.',        color:'#0ea5e9', sem:'8 Semesters' },
+      { name:'Chemical Engineering',             icon:'CH', desc:'Process design, thermodynamics & reaction engineering.',       color:'#a855f7', sem:'8 Semesters' },
+    ];
+
+    function renderCards(list) {
+      const grid = document.getElementById('courseGrid');
+      grid.innerHTML = list.map(c => `
+        <div class="course-card" style="--card-color:${c.color}" onclick="go('${c.name}')">
+          <span class="card-icon">${c.icon}</span>
+          <div class="card-title">${c.name}</div>
+          <div class="card-desc">${c.desc}</div>
+          <div class="card-meta">
+            <span class="card-badge">${c.sem}</span>
+            <div class="card-arrow" style="background:${c.color}">→</div>
+          </div>
+        </div>`).join('');
+    }
+
+    renderCards(courses);
+
+    document.getElementById('searchInput').addEventListener('input', function() {
+      const q = this.value.toLowerCase();
+      renderCards(q ? courses.filter(c => c.name.toLowerCase().includes(q) || c.desc.toLowerCase().includes(q)) : courses);
+    });
+
+    function go(name) {
+      localStorage.setItem('selectedCourse', name);
+      window.location.href = '/semester';
+    }
+  </script>
+
+  <!-- AI Chat Widget -->
+  <script>window.CHAT_SUBJECT = null;</script>
+  <style>#ioe-chat-fab{position:fixed;bottom:28px;right:28px;z-index:9000;width:52px;height:52px;border-radius:50%;background:#6366f1;border:none;cursor:pointer;box-shadow:0 4px 20px rgba(99,102,241,0.5);display:flex;align-items:center;justify-content:center;transition:transform 0.2s,box-shadow 0.2s;}#ioe-chat-fab:hover{transform:scale(1.08);}#ioe-chat-fab svg{width:24px;height:24px;fill:#fff;}#ioe-chat-fab .close-icon{display:none;}#ioe-chat-fab.open .chat-icon{display:none;}#ioe-chat-fab.open .close-icon{display:block;}#ioe-chat-panel{position:fixed;bottom:92px;right:28px;z-index:8999;width:360px;border-radius:18px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.18);border:1px solid #e5e7eb;display:none;flex-direction:column;font-family:'Inter',sans-serif;}#ioe-chat-panel.open{display:flex;}.ioe-chat-head{background:#0f1f3d;padding:16px 20px;display:flex;align-items:center;gap:12px;}.ioe-chat-avatar{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#818cf8);display:flex;align-items:center;justify-content:center;}.ioe-chat-avatar svg{width:18px;height:18px;fill:#fff;}.ioe-chat-head-info strong{display:block;color:#fff;font-size:14px;font-weight:700;}.ioe-chat-head-info span{color:rgba(255,255,255,0.5);font-size:11px;}.ioe-online-dot{width:8px;height:8px;border-radius:50%;background:#10b981;margin-left:auto;animation:blink 2s infinite;}@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.4;}}.ioe-chat-msgs{flex:1;height:300px;overflow-y:auto;padding:16px;background:#f9fafb;display:flex;flex-direction:column;gap:10px;}.ioe-msg{max-width:88%;padding:10px 14px;border-radius:12px;font-size:13px;line-height:1.55;word-break:break-word;}.ioe-msg.ai{background:#fff;color:#0f1f3d;border:1px solid #e5e7eb;align-self:flex-start;border-radius:4px 12px 12px 12px;}.ioe-msg.user{background:#6366f1;color:#fff;align-self:flex-end;border-radius:12px 4px 12px 12px;}.ioe-msg.typing{color:#6b7280;font-style:italic;background:#fff;border:1px solid #e5e7eb;align-self:flex-start;border-radius:4px 12px 12px 12px;}.ioe-msg.error{background:#fef2f2;color:#dc2626;border:1px solid #fecaca;align-self:flex-start;border-radius:4px 12px 12px 12px;}.ioe-chat-input-wrap{padding:12px 16px;border-top:1px solid #e5e7eb;display:flex;gap:8px;background:#fff;}.ioe-chat-input{flex:1;border:1.5px solid #e5e7eb;border-radius:8px;padding:9px 12px;font-size:13px;font-family:'Inter',sans-serif;outline:none;color:#0f1f3d;transition:border-color 0.2s;}.ioe-chat-input:focus{border-color:#6366f1;}.ioe-send-btn{background:#6366f1;color:#fff;border:none;border-radius:8px;padding:9px 14px;cursor:pointer;transition:background 0.2s;}.ioe-send-btn:hover{background:#4f46e5;}.ioe-send-btn:disabled{background:#d1d5db;cursor:not-allowed;}.ioe-send-btn svg{width:16px;height:16px;fill:#fff;display:block;}</style>
+  <button id="ioe-chat-fab" aria-label="AI Chat" onclick="ioeToggleChat()"><svg class="chat-icon" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg><svg class="close-icon" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
+  <div id="ioe-chat-panel"><div class="ioe-chat-head"><div class="ioe-chat-avatar"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg></div><div class="ioe-chat-head-info"><strong>AI Study Assistant</strong><span>IOEverse RAG</span></div><div class="ioe-online-dot"></div></div><div id="ioe-chat-msgs" class="ioe-chat-msgs"><div class="ioe-msg ai">Hello! Ask me anything about your IOE syllabus.</div></div><div class="ioe-chat-input-wrap"><input type="text" class="ioe-chat-input" id="ioe-chat-input" placeholder="Ask any subject question..."/><button class="ioe-send-btn" id="ioe-send-btn" onclick="ioeSend()"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button></div></div>
+  <script>(function(){function ioeToggleChat(){var f=document.getElementById('ioe-chat-fab'),p=document.getElementById('ioe-chat-panel');f.classList.toggle('open');p.classList.toggle('open');if(p.classList.contains('open'))document.getElementById('ioe-chat-input').focus();}window.ioeToggleChat=ioeToggleChat;function ioeAddMsg(t,c){var b=document.getElementById('ioe-chat-msgs'),d=document.createElement('div');d.className='ioe-msg '+c;d.textContent=t;b.appendChild(d);b.scrollTop=b.scrollHeight;return d;}async function ioeSend(){var i=document.getElementById('ioe-chat-input'),b=document.getElementById('ioe-send-btn'),q=i.value.trim();if(!q)return;ioeAddMsg(q,'user');i.value='';b.disabled=true;var ty=ioeAddMsg('Thinking...','typing');try{var body={question:q};if(window.CHAT_SUBJECT)body.subject=window.CHAT_SUBJECT;var r=await fetch('/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});var d=await r.json();ty.remove();if(d.answer)ioeAddMsg(d.answer,'ai');else ioeAddMsg(d.error||'No answer found.','error');}catch(e){ty.remove();ioeAddMsg('Connection error.','error');}b.disabled=false;}window.ioeSend=ioeSend;document.getElementById('ioe-chat-input').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();ioeSend();}});})();</script>
+</body>
+</html>

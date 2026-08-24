@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Subjects | IOEverse</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{--navy:#0f1f3d;--purple:#6366f1;--accent:#f59e0b;--cream:#fafaf8;--gray:#6b7280;--border:#e5e7eb;}
+    body{font-family:'Inter',sans-serif;background:var(--cream);min-height:100vh;}
+
+    nav{background:#fff;border-bottom:1px solid var(--border);padding:0 48px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}
+    .nav-logo{font-size:20px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px;}
+    .nav-logo span{width:30px;height:30px;background:var(--purple);border-radius:8px;display:grid;place-items:center;font-size:14px;color:#fff;}
+    .nav-back{font-size:13px;color:var(--gray);text-decoration:none;font-weight:500;display:flex;align-items:center;gap:6px;padding:8px 14px;border:1.5px solid var(--border);border-radius:8px;transition:all 0.2s;}
+    .nav-back:hover{color:var(--navy);border-color:var(--navy);}
+
+    .page-header{background:var(--navy);padding:48px;position:relative;overflow:hidden;}
+    .page-header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 50%,rgba(99,102,241,0.25) 0%,transparent 60%);}
+    .header-inner{position:relative;z-index:1;max-width:1100px;margin:0 auto;}
+    .breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:16px;}
+    .breadcrumb a{color:rgba(255,255,255,0.5);text-decoration:none;}
+    .breadcrumb a:hover{color:#fff;}
+    .breadcrumb span{color:rgba(255,255,255,0.3);}
+    .page-header h1{font-size:32px;font-weight:800;color:#fff;margin-bottom:8px;}
+    .page-header h1 em{font-style:normal;color:var(--accent);}
+    .page-header p{color:rgba(255,255,255,0.6);font-size:14px;}
+
+    .content{max-width:1100px;margin:0 auto;padding:40px 48px 64px;}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px;}
+
+    .subject-card{
+      background:#fff;border-radius:16px;padding:28px;
+      border:1.5px solid var(--border);cursor:pointer;
+      transition:all 0.25s ease;position:relative;overflow:hidden;
+      display:flex;align-items:flex-start;gap:20px;
+    }
+    .subject-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,0.1);border-color:transparent;}
+
+    .card-icon-box{
+      width:52px;height:52px;border-radius:14px;
+      background:var(--icon-bg,rgba(99,102,241,0.1));
+      color:var(--icon-color,var(--purple));
+      display:grid;place-items:center;font-size:24px;flex-shrink:0;
+    }
+    .card-body{flex:1;}
+    .card-title{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+    .card-desc{font-size:13px;color:var(--gray);line-height:1.5;margin-bottom:14px;}
+    .card-footer{display:flex;align-items:center;justify-content:space-between;}
+    .card-tag{font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;background:var(--icon-bg,rgba(99,102,241,0.08));color:var(--icon-color,var(--purple));}
+    .card-go{font-size:13px;font-weight:600;color:var(--icon-color,var(--purple));display:flex;align-items:center;gap:4px;transition:gap 0.2s;}
+    .subject-card:hover .card-go{gap:8px;}
+
+    @media(max-width:768px){nav,.content,.page-header{padding-left:20px;padding-right:20px;}}
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-logo"><span>I</span> IOEverse</div>
+    <a href="/semester" class="nav-back">← Back to Semesters</a>
+  </nav>
+
+  <div class="page-header">
+    <div class="header-inner">
+      <div class="breadcrumb">
+        <a href="/engineering">Programs</a><span>/</span>
+        <a href="/semester">Semesters</a><span>/</span>
+        <span>Semester I Subjects</span>
+      </div>
+      <h1>1st Semester <em>Subjects</em></h1>
+      <p>Choose a subject to view chapters, notes, past papers, and take AI-powered quizzes</p>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="grid">
+
+      <div class="subject-card" style="--icon-bg:rgba(99,102,241,0.1);--icon-color:#6366f1" onclick="window.location.href='/physics'">
+        <div class="card-icon-box">PH</div>
+        <div class="card-body">
+          <div class="card-title">Engineering Physics</div>
+          <div class="card-desc">Mechanics, oscillations, thermodynamics, optics and modern physics fundamentals.</div>
+          <div class="card-footer">
+            <span class="card-tag">SH 402 · 60 hrs</span>
+            <span class="card-go">Explore →</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="subject-card" style="--icon-bg:rgba(245,158,11,0.1);--icon-color:#f59e0b" onclick="window.location.href='/physics'">
+        <div class="card-icon-box">MA</div>
+        <div class="card-body">
+          <div class="card-title">Engineering Mathematics I</div>
+          <div class="card-desc">Calculus, complex numbers, matrices, sequences and differential equations.</div>
+          <div class="card-footer">
+            <span class="card-tag">SH 401 · 60 hrs</span>
+            <span class="card-go">Explore →</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="subject-card" style="--icon-bg:rgba(16,185,129,0.1);--icon-color:#10b981" onclick="window.location.href='/physics'">
+        <div class="card-icon-box">C</div>
+        <div class="card-body">
+          <div class="card-title">Programming in C</div>
+          <div class="card-desc">Data types, control structures, functions, arrays, pointers and file operations.</div>
+          <div class="card-footer">
+            <span class="card-tag">CT 401 · 60 hrs</span>
+            <span class="card-go">Explore →</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="subject-card" style="--icon-bg:rgba(239,68,68,0.1);--icon-color:#ef4444" onclick="window.location.href='/physics'">
+        <div class="card-icon-box">EE</div>
+        <div class="card-body">
+          <div class="card-title">Basic Electrical Engineering</div>
+          <div class="card-desc">Circuit fundamentals, Ohm's law, Kirchhoff's laws, AC analysis and machines.</div>
+          <div class="card-footer">
+            <span class="card-tag">EE 401 · 60 hrs</span>
+            <span class="card-go">Explore →</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="subject-card" style="--icon-bg:rgba(59,130,246,0.1);--icon-color:#3b82f6" onclick="window.location.href='/physics'">
+        <div class="card-icon-box">DL</div>
+        <div class="card-body">
+          <div class="card-title">Digital Logic</div>
+          <div class="card-desc">Boolean algebra, logic gates, Karnaugh maps, flip-flops and sequential circuits.</div>
+          <div class="card-footer">
+            <span class="card-tag">EX 401 · 45 hrs</span>
+            <span class="card-go">Explore →</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="subject-card" style="--icon-bg:rgba(168,85,247,0.1);--icon-color:#a855f7" onclick="window.location.href='/physics'">
+        <div class="card-icon-box">ED</div>
+        <div class="card-body">
+          <div class="card-title">Engineering Drawing I</div>
+          <div class="card-desc">Geometric constructions, orthographic projections, isometric and sectional views.</div>
+          <div class="card-footer">
+            <span class="card-tag">ME 401 · 45 hrs</span>
+            <span class="card-go">Explore →</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <script>window.CHAT_SUBJECT = null;</script>
+  <script src="/static/js/chat-widget.js"></script>
+</body>
+</html>

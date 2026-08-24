@@ -1,0 +1,122 @@
+[
+  {
+    "question": "What is 2's complement representation of -5 in 4-bit binary?",
+    "subject": "Digital Logic",
+    "chapter": "Number Systems",
+    "expected_status": "grounded",
+    "corpus_sufficient": true,
+    "notes": "Number systems chapter should cover signed number representation"
+  },
+  {
+    "question": "Explain the difference between a half adder and a full adder",
+    "subject": "Digital Logic",
+    "chapter": "Combinational Circuits",
+    "expected_status": "grounded",
+    "corpus_sufficient": true,
+    "notes": "Combinational circuits chapter covers both adder types"
+  },
+  {
+    "question": "What is the purpose of the preprocessor directive #include?",
+    "subject": "Programming in C",
+    "chapter": "Basic Structure of C Program",
+    "expected_status": "grounded",
+    "corpus_sufficient": true,
+    "notes": "Directly covered in basic structure chapter"
+  },
+  {
+    "question": "How does dynamic memory allocation work with malloc in C?",
+    "subject": "Programming in C",
+    "chapter": "Pointers and Memory Management",
+    "expected_status": "grounded",
+    "corpus_sufficient": true,
+    "notes": "Covered under pointers chapter"
+  },
+  {
+    "question": "What is Kirchhoff's Current Law?",
+    "subject": "Basic Electrical Engineering",
+    "chapter": "Ohm's Law and Kirchhoff's Laws",
+    "expected_status": "grounded",
+    "corpus_sufficient": true,
+    "notes": "Directly in the chapter scope"
+  },
+  {
+    "question": "Explain the working of a JK flip-flop",
+    "subject": "Digital Logic",
+    "chapter": "Flip-Flops and Latches",
+    "expected_status": "grounded",
+    "corpus_sufficient": true,
+    "notes": "JK flip-flop is listed in the chapter topics"
+  },
+  {
+    "question": "What are quantum computing applications in cryptography?",
+    "subject": "Engineering Physics",
+    "chapter": "Quantum Mechanics Basics",
+    "expected_status": "partial",
+    "corpus_sufficient": false,
+    "notes": "Quantum mechanics basics is covered but cryptography applications are out of syllabus scope"
+  },
+  {
+    "question": "Explain the OSI model layers in computer networking",
+    "subject": "Programming in C",
+    "chapter": "Introduction to Programming",
+    "expected_status": "not_found",
+    "corpus_sufficient": false,
+    "notes": "Networking is not part of 1st semester BEI syllabus at all"
+  },
+  {
+    "question": "What is machine learning and how does backpropagation work?",
+    "subject": "Digital Logic",
+    "chapter": "Logic Gates",
+    "expected_status": "not_found",
+    "corpus_sufficient": false,
+    "notes": "ML is completely outside the syllabus"
+  },
+  {
+    "question": "Explain the concept of recursion with an example",
+    "subject": "Programming in C",
+    "chapter": "Functions and Recursion",
+    "expected_status": "grounded",
+    "corpus_sufficient": true,
+    "notes": "Recursion is a core topic in this chapter"
+  },
+  {
+    "question": "What is the difference between structures and unions in C?",
+    "subject": "Programming in C",
+    "chapter": "Structures and Unions",
+    "expected_status": "grounded",
+    "corpus_sufficient": true,
+    "notes": "Directly covered"
+  },
+  {
+    "question": "Explain Thevenin's theorem with an example circuit",
+    "subject": "Basic Electrical Engineering",
+    "chapter": "Network Theorems",
+    "expected_status": "grounded",
+    "corpus_sufficient": true,
+    "notes": "Thevenin's theorem is listed in the chapter"
+  },
+  {
+    "question": "How does a transformer work and what is its EMF equation?",
+    "subject": "Basic Electrical Engineering",
+    "chapter": "Transformers",
+    "expected_status": "grounded",
+    "corpus_sufficient": true,
+    "notes": "Transformer operation and EMF equation are covered"
+  },
+  {
+    "question": "What is the time complexity of quicksort?",
+    "subject": "Programming in C",
+    "chapter": "Control Structures",
+    "expected_status": "not_found",
+    "corpus_sufficient": false,
+    "notes": "Algorithm analysis / quicksort not in 1st semester C programming syllabus"
+  },
+  {
+    "question": "Explain De Morgan's theorems with truth tables",
+    "subject": "Digital Logic",
+    "chapter": "Boolean Algebra",
+    "expected_status": "grounded",
+    "corpus_sufficient": true,
+    "notes": "De Morgan's theorems are a core boolean algebra topic"
+  }
+]
