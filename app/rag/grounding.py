@@ -13,7 +13,7 @@ from typing import Any
 from langchain_google_genai import ChatGoogleGenerativeAI
 
 from app.config import settings
-from app.rag.prompts import QA_GROUNDING_TEMPLATE, QUIZ_GROUNDING_TEMPLATE
+from app.rag.prompts import QA_GROUNDING_TEMPLATE, QUIZ_GROUNDING_TEMPLATE, QUIZ_FALLBACK_TEMPLATE
 from app.rag.retriever import retrieve_context_string
 
 logger = logging.getLogger(__name__)
@@ -163,3 +163,33 @@ def generate_grounded_question(
         "question": None,
         "message": "Model did not return a structured response.",
     }
+
+
+# ---------------------------------------------------------------------------
+# Fallback quiz — no documents needed
+# ---------------------------------------------------------------------------
+
+def generate_fallback_question(
+    subject: str,
+    chapter: str,
+    difficulty: str = "Beginner",
+) -> dict[str, Any]:
+    """
+    Generate a quiz question directly from LLM knowledge (no RAG context).
+    Used when no documents have been ingested for a subject/chapter.
+    """
+    try:
+        chain = QUIZ_FALLBACK_TEMPLATE | _get_llm()
+        response = chain.invoke({
+            "subject": subject,
+            "chapter": chapter,
+            "difficulty": difficulty,
+        })
+        response_text = _extract_text(response)
+        parsed = _extract_json(response_text)
+        if parsed and parsed.get("question") and parsed.get("options"):
+            return parsed
+        logger.warning("Fallback LLM did not return valid quiz JSON")
+    except Exception as e:
+        logger.error("Fallback question generation error: %s", e)
+    return {"question": None}

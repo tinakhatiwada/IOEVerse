@@ -97,7 +97,7 @@
         </div>
         <button type="submit" class="btn-primary" id="loginBtn">Sign In</button>
         <div class="divider">or</div>
-        <button type="button" class="btn-google">
+        <button type="button" class="btn-google" id="googleBtn" onclick="googleLogin()">
           <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" alt="Google" />
           Continue with Google
         </button>
@@ -119,6 +119,15 @@
         else{showToast(data.error||'Login failed.');btn.textContent='Sign In';btn.disabled=false;}
       } catch(err){showToast('Connection error: '+err.message);btn.textContent='Sign In';btn.disabled=false;}
     });
+    async function googleLogin() {
+      const btn=document.getElementById('googleBtn'); btn.textContent='Signing in…'; btn.disabled=true;
+      try {
+        const res=await fetch('/auth/google-demo',{method:'POST'});
+        const data=await res.json();
+        if(res.ok&&data.success){showToast('Signed in!','success');setTimeout(()=>window.location.href='/engineering',800);}
+        else{showToast(data.error||'Google sign-in failed.');btn.innerHTML='<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" alt="Google"/> Continue with Google';btn.disabled=false;}
+      } catch(err){showToast('Connection error.');btn.innerHTML='<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" alt="Google"/> Continue with Google';btn.disabled=false;}
+    }
   </script>
 </body>
 </html>

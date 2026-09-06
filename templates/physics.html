@@ -121,11 +121,11 @@
           <a href="/engineering">Programs</a><span>/</span>
           <a href="/semester">Semesters</a><span>/</span>
           <a href="/subject">Subjects</a><span>/</span>
-          <span>Engineering Physics</span>
+          <span id="breadcrumb-subject">Subject</span>
         </div>
-        <div class="subject-badge">Engineering Physics</div>
-        <h1>Engineering Physics<br>SH 402</h1>
-        <p>Master the core physics concepts for IOE 1st semester — oscillations, thermodynamics, optics, modern physics and more.</p>
+        <div class="subject-badge" id="hero-badge">Subject</div>
+        <h1 id="hero-title">Loading...<br><span id="hero-code"></span></h1>
+        <p id="hero-desc">Loading subject information...</p>
         <div class="meta-chips">
           <div class="chip">Year 1, Part 1</div>
           <div class="chip">60 Hours</div>
@@ -154,9 +154,9 @@
 
     <!-- Chapters -->
     <div class="chapters-panel">
-      <div class="panel-title">Chapters <span>8 Topics</span></div>
-      <div class="chapter-list">
-        <div class="chapter-item selected" onclick="selectChap(this)">
+      <div class="panel-title">Chapters <span id="chapter-count">0 Topics</span></div>
+      <div class="chapter-list" id="chapter-list"></div>
+    </div>
           <div class="ch-num">01</div>
           <div class="ch-info">
             <div class="ch-name">Mechanics and Motion</div>
@@ -222,27 +222,72 @@
       </div>
 
       <!-- AI Chat -->
-      <div class="chat-card">
-        <div class="chat-header">
-          <div class="chat-dot"></div>
-          <div class="chat-header-text">
-            <strong>AI Study Assistant</strong>
-            <span>Ask anything about Physics</span>
-          </div>
-        </div>
-        <div class="chat-messages" id="chatMessages">
-          <div class="msg ai">👋 Hello! I'm your AI study assistant. Ask me anything about Engineering Physics — I'll answer based on your syllabus!</div>
-        </div>
-        <div class="chat-input-wrap">
-          <input type="text" class="chat-input" id="chatInput" placeholder="Ask about SHM, thermodynamics…" />
-          <button class="send-btn" id="sendBtn" onclick="sendMessage()">➤</button>
-        </div>
-      </div>
     </div>
   </div>
 
   <script>
-    let completedChapters = new Set();
+    // Subject data (matches quiz_service CHAPTER_STRUCTURE + subject.html)
+    const SUBJECTS = {
+      'Engineering Physics': {
+        code: 'SH 402', hours: '60',
+        desc: 'Master mechanics, oscillations, thermodynamics, optics and modern physics.',
+        chapters: ['Mechanics and Motion','Work, Energy and Power','Oscillations and Waves','Thermodynamics','Optics and Light','Modern Physics','Atomic Structure','Quantum Mechanics Basics']
+      },
+      'Engineering Mathematics I': {
+        code: 'SH 401', hours: '60',
+        desc: 'Calculus, complex numbers, matrices, sequences and differential equations.',
+        chapters: ['Complex Numbers','Matrices and Determinants','System of Linear Equations','Sequences and Series','Limits and Continuity','Differentiation','Applications of Derivatives','Integration Techniques']
+      },
+      'Programming in C': {
+        code: 'CT 401', hours: '60',
+        desc: 'Data types, control structures, functions, arrays, pointers and file I/O.',
+        chapters: ['Introduction to Programming','Basic Structure of C Program','Variables and Data Types','Operators and Expressions','Control Structures','Functions and Recursion','Arrays and Strings','Pointers and Memory Management','Structures and Unions','File Operations']
+      },
+      'Basic Electrical Engineering': {
+        code: 'EE 401', hours: '60',
+        desc: 'Circuit fundamentals, Ohm\'s law, Kirchhoff\'s laws, AC analysis and machines.',
+        chapters: ['Circuit Fundamentals',"Ohm's Law and Kirchhoff's Laws",'Network Theorems','AC Circuit Analysis','Three-Phase Systems','Magnetic Circuits','Transformers','Electrical Machines','Measurement and Instrumentation']
+      },
+      'Digital Logic': {
+        code: 'EX 401', hours: '45',
+        desc: 'Boolean algebra, logic gates, Karnaugh maps, flip-flops and sequential circuits.',
+        chapters: ['Number Systems','Boolean Algebra','Logic Gates','Combinational Circuits','Karnaugh Maps','Sequential Circuits','Flip-Flops and Latches','Counters and Registers','Memory Systems']
+      },
+      'Engineering Drawing I': {
+        code: 'ME 401', hours: '45',
+        desc: 'Drawing instruments, geometric constructions, orthographic and isometric projections.',
+        chapters: ['Drawing Instruments and Materials','Lettering and Dimensioning','Geometric Constructions','Orthographic Projections','Isometric Drawings','Sectional Views','Auxiliary Views','Development of Surfaces']
+      }
+    };
+
+    const subject = localStorage.getItem('selectedSubject') || 'Engineering Physics';
+    const info = SUBJECTS[subject] || SUBJECTS['Engineering Physics'];
+
+    // Render hero
+    document.getElementById('breadcrumb-subject').textContent = subject;
+    document.getElementById('hero-badge').textContent = subject;
+    document.getElementById('hero-title').innerHTML = subject + '<br><small style="font-size:16px;font-weight:500;opacity:0.7">' + info.code + '</small>';
+    document.getElementById('hero-desc').textContent = info.desc;
+
+    // Render chapter list dynamically
+    const chapList = document.getElementById('chapter-list');
+    document.getElementById('chapter-count').textContent = info.chapters.length + ' Topics';
+    info.chapters.forEach((ch, i) => {
+      const div = document.createElement('div');
+      div.className = 'chapter-item' + (i === 0 ? ' selected' : '');
+      div.innerHTML = `
+        <div class="ch-num">${String(i+1).padStart(2,'0')}</div>
+        <div class="ch-info"><div class="ch-name">${ch}</div></div>
+        <div class="ch-arrow">→</div>`;
+      div.addEventListener('click', () => selectChap(div));
+      chapList.appendChild(div);
+    });
+
+    // Set first chapter as selected by default
+    window.CHAT_CHAPTER = info.chapters[0] || '';
+
+    let completedChapters = new Set([info.chapters[0] || '']);
+    updateProgress();
 
     function selectChap(el) {
       document.querySelectorAll('.chapter-item').forEach(c => c.classList.remove('selected'));
@@ -250,7 +295,6 @@
       const chapName = el.querySelector('.ch-name').textContent;
       completedChapters.add(chapName);
       updateProgress();
-      // Update floating chat context
       window.CHAT_CHAPTER = chapName;
     }
 
@@ -263,16 +307,16 @@
       document.getElementById('progressLabel').textContent = done + ' of ' + total + ' chapters visited';
     }
 
-    setTimeout(() => updateProgress(), 300);
-
     function goToQuiz() {
-      localStorage.setItem('quizSubject', 'Engineering Physics');
-      localStorage.setItem('quizChapter', window.CHAT_CHAPTER || '');
+      localStorage.setItem('quizSubject', subject);
+      localStorage.setItem('quizChapter', window.CHAT_CHAPTER || info.chapters[0] || '');
       window.location.href = '/quiz';
     }
+
+    // Google Sign-In stub (handle from index page)
+    window.CHAT_SUBJECT = subject;
   </script>
 
-  <script>window.CHAT_SUBJECT='Engineering Physics';window.CHAT_CHAPTER='';</script>
   <script src="/static/js/chat-widget.js"></script>
 </body>
 </html>

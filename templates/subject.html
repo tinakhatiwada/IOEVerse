@@ -76,7 +76,7 @@
   <div class="content">
     <div class="grid">
 
-      <div class="subject-card" style="--icon-bg:rgba(99,102,241,0.1);--icon-color:#6366f1" onclick="window.location.href='/physics'">
+      <div class="subject-card" style="--icon-bg:rgba(99,102,241,0.1);--icon-color:#6366f1" onclick="goToSubject('Engineering Physics')">
         <div class="card-icon-box">PH</div>
         <div class="card-body">
           <div class="card-title">Engineering Physics</div>
@@ -88,7 +88,7 @@
         </div>
       </div>
 
-      <div class="subject-card" style="--icon-bg:rgba(245,158,11,0.1);--icon-color:#f59e0b" onclick="window.location.href='/physics'">
+      <div class="subject-card" style="--icon-bg:rgba(245,158,11,0.1);--icon-color:#f59e0b" onclick="goToSubject('Engineering Mathematics I')">
         <div class="card-icon-box">MA</div>
         <div class="card-body">
           <div class="card-title">Engineering Mathematics I</div>
@@ -100,7 +100,7 @@
         </div>
       </div>
 
-      <div class="subject-card" style="--icon-bg:rgba(16,185,129,0.1);--icon-color:#10b981" onclick="window.location.href='/physics'">
+      <div class="subject-card" style="--icon-bg:rgba(16,185,129,0.1);--icon-color:#10b981" onclick="goToSubject('Programming in C')">
         <div class="card-icon-box">C</div>
         <div class="card-body">
           <div class="card-title">Programming in C</div>
@@ -112,7 +112,7 @@
         </div>
       </div>
 
-      <div class="subject-card" style="--icon-bg:rgba(239,68,68,0.1);--icon-color:#ef4444" onclick="window.location.href='/physics'">
+      <div class="subject-card" style="--icon-bg:rgba(239,68,68,0.1);--icon-color:#ef4444" onclick="goToSubject('Basic Electrical Engineering')">
         <div class="card-icon-box">EE</div>
         <div class="card-body">
           <div class="card-title">Basic Electrical Engineering</div>
@@ -124,7 +124,7 @@
         </div>
       </div>
 
-      <div class="subject-card" style="--icon-bg:rgba(59,130,246,0.1);--icon-color:#3b82f6" onclick="window.location.href='/physics'">
+      <div class="subject-card" style="--icon-bg:rgba(59,130,246,0.1);--icon-color:#3b82f6" onclick="goToSubject('Digital Logic')">
         <div class="card-icon-box">DL</div>
         <div class="card-body">
           <div class="card-title">Digital Logic</div>
@@ -136,7 +136,7 @@
         </div>
       </div>
 
-      <div class="subject-card" style="--icon-bg:rgba(168,85,247,0.1);--icon-color:#a855f7" onclick="window.location.href='/physics'">
+      <div class="subject-card" style="--icon-bg:rgba(168,85,247,0.1);--icon-color:#a855f7" onclick="goToSubject('Engineering Drawing I')">
         <div class="card-icon-box">ED</div>
         <div class="card-body">
           <div class="card-title">Engineering Drawing I</div>
@@ -150,7 +150,13 @@
 
     </div>
   </div>
-  <script>window.CHAT_SUBJECT = null;</script>
+  <script>
+    function goToSubject(name) {
+      localStorage.setItem('selectedSubject', name);
+      window.location.href = '/physics';
+    }
+    window.CHAT_SUBJECT = null;
+  </script>
   <script src="/static/js/chat-widget.js"></script>
 </body>
 </html>

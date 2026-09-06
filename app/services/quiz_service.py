@@ -11,7 +11,7 @@ import uuid
 from typing import List
 
 from app.models.quiz import QuizQuestion, QuizSession
-from app.rag.grounding import generate_grounded_question
+from app.rag.grounding import generate_grounded_question, generate_fallback_question
 
 logger = logging.getLogger(__name__)
 
@@ -101,11 +101,11 @@ def get_chapters(subject: str) -> list[str]:
 import asyncio
 
 def _generate_one_question(subject: str, chapter: str, difficulty: str, index: int, total: int) -> QuizQuestion | None:
-    """Generate a single grounded question. Returns None if not sufficient."""
+    """Generate a single question — grounded first, fallback to direct LLM."""
     try:
         result = generate_grounded_question(subject, chapter, difficulty)
         if result.get("sufficient") and result.get("status") == "grounded":
-            logger.info("Generated question %d/%d for %s", index + 1, total, chapter)
+            logger.info("Grounded question %d/%d for %s", index + 1, total, chapter)
             return QuizQuestion(
                 question=result["question"],
                 options=result["options"],
@@ -115,10 +115,18 @@ def _generate_one_question(subject: str, chapter: str, difficulty: str, index: i
                 topic=subject,
                 chapter=chapter,
             )
-        else:
-            logger.warning(
-                "Skipped question %d/%d — insufficient context: %s",
-                index + 1, total, result.get("message", ""),
+        # Grounding failed — use direct LLM fallback
+        logger.warning("No grounded context for Q%d — using AI fallback", index + 1)
+        result = generate_fallback_question(subject, chapter, difficulty)
+        if result.get("question"):
+            return QuizQuestion(
+                question=result["question"],
+                options=result["options"],
+                correct_answer=result["correct_answer"],
+                explanation=result.get("explanation", ""),
+                difficulty=difficulty,
+                topic=subject,
+                chapter=chapter,
             )
     except Exception as e:
         logger.error("Error generating question %d: %s", index + 1, e)

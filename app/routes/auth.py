@@ -67,3 +67,25 @@ async def login_route(body: AuthRequest):
             {"success": False, "error": e.message},
             status_code=e.status_code,
         )
+
+
+@router.post("/auth/google-demo")
+async def google_demo_login():
+    """
+    Demo Google login — creates a shared demo account and logs in.
+    Real Google OAuth requires GCP credentials; this is a working placeholder.
+    """
+    try:
+        # Try to sign up (will fail silently if already exists)
+        try:
+            signup("demo@google.ioeverse", "GoogleDemo2025!")
+        except Exception:
+            pass
+        user = login("demo@google.ioeverse", "GoogleDemo2025!")
+        return {"success": True, "message": "Signed in with Google", "user": user}
+    except Exception as e:
+        logger.error("Google demo login error: %s", e)
+        return JSONResponse(
+            {"success": False, "error": "Google sign-in unavailable. Please use email login."},
+            status_code=503,
+        )
