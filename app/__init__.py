@@ -77,8 +77,8 @@ def create_app() -> FastAPI:
             init_db()
         except Exception:
             logger.warning(
-                "Database schema init failed — this is expected if pgvector "
-                "is not yet enabled or schema.sql doesn't exist yet."
+                "Database init had errors — core tables may still be available. "
+                "Enable pgvector manually for full RAG/quiz features."
             )
         logger.info("IOEVERSE app started")
 

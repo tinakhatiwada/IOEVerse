@@ -69,23 +69,27 @@ async def login_route(body: AuthRequest):
         )
 
 
-@router.post("/auth/google-demo")
+@router.post("/google-demo")
 async def google_demo_login():
     """
-    Demo Google login — creates a shared demo account and logs in.
-    Real Google OAuth requires GCP credentials; this is a working placeholder.
+    Demo Google login — works even if the database isn't fully set up yet.
+    Creates a guest session the frontend can use to navigate the app.
     """
+    # Try proper DB-backed login first
     try:
-        # Try to sign up (will fail silently if already exists)
         try:
             signup("demo@google.ioeverse", "GoogleDemo2025!")
         except Exception:
-            pass
+            pass  # User already exists — fine
         user = login("demo@google.ioeverse", "GoogleDemo2025!")
         return {"success": True, "message": "Signed in with Google", "user": user}
     except Exception as e:
-        logger.error("Google demo login error: %s", e)
-        return JSONResponse(
-            {"success": False, "error": "Google sign-in unavailable. Please use email login."},
-            status_code=503,
-        )
+        logger.warning("DB-backed Google login failed (%s) — using guest session", e)
+
+    # Fallback: return a guest token so frontend can proceed
+    return {
+        "success": True,
+        "message": "Signed in as guest",
+        "user": {"id": 0, "email": "guest@ioeverse"},
+        "guest": True,
+    }

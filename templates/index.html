@@ -122,7 +122,7 @@
     async function googleLogin() {
       const btn=document.getElementById('googleBtn'); btn.textContent='Signing in…'; btn.disabled=true;
       try {
-        const res=await fetch('/auth/google-demo',{method:'POST'});
+        const res=await fetch('/google-demo',{method:'POST'});
         const data=await res.json();
         if(res.ok&&data.success){showToast('Signed in!','success');setTimeout(()=>window.location.href='/engineering',800);}
         else{showToast(data.error||'Google sign-in failed.');btn.innerHTML='<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" alt="Google"/> Continue with Google';btn.disabled=false;}
