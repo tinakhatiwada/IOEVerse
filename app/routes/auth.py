@@ -71,10 +71,7 @@ async def login_route(body: AuthRequest):
 
 @router.post("/google-demo")
 async def google_demo_login():
-    """
-    Demo Google login — works even if the database isn't fully set up yet.
-    Creates a guest session the frontend can use to navigate the app.
-    """
+    """Demo Google login. Falls back to guest session if DB is unavailable."""
     # Try proper DB-backed login first
     try:
         try:

@@ -1,13 +1,4 @@
-"""
-Database connection management.
-
-Provides a simple connection helper and schema initialisation.
-Uses psycopg2 directly (no ORM).
-
-Schema init is split into two phases so that a missing pgvector
-extension does NOT prevent the core tables (users, etc.) from
-being created.
-"""
+"""Database connection and schema bootstrap for IOEverse."""
 
 import logging
 import os
@@ -77,21 +68,14 @@ def _run_sql(conn, sql: str):
 
 
 def init_db():
-    """
-    Bootstrap the database schema in two independent phases:
-
-    Phase 1 — core tables (users, documents): always runs.
-    Phase 2 — pgvector + document_chunks: runs only if pgvector
-               is available; failure is logged but does NOT abort
-               startup so auth/login still work.
-    """
+    """Bootstrap DB schema: core tables first, then pgvector tables."""
+    # Phase 1: users + documents (no pgvector needed)
     try:
         conn = get_connection()
     except Exception:
         logger.exception("Cannot connect to database — skipping schema init")
         return
 
-    # Phase 1: core tables (no pgvector needed)
     try:
         _run_sql(conn, _CORE_SCHEMA)
         logger.info("Core schema (users, documents) ready")
