@@ -1,62 +1,273 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Semesters | IOEverse</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
   <style>
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    :root{--navy:#0f1f3d;--purple:#6366f1;--accent:#f59e0b;--cream:#fafaf8;--gray:#6b7280;--border:#e5e7eb;}
-    body{font-family:'Inter',sans-serif;background:var(--cream);min-height:100vh;}
-
-    nav{background:#fff;border-bottom:1px solid var(--border);padding:0 48px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}
-    .nav-logo{font-size:20px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px;}
-    .nav-logo span{width:30px;height:30px;background:var(--purple);border-radius:8px;display:grid;place-items:center;font-size:12px;font-weight:800;color:#fff;}
-    .nav-right{display:flex;align-items:center;gap:16px;}
-    .nav-back{font-size:13px;color:var(--gray);text-decoration:none;font-weight:500;display:flex;align-items:center;gap:6px;padding:8px 14px;border:1.5px solid var(--border);border-radius:8px;transition:all 0.2s;}
-    .nav-back:hover{color:var(--navy);border-color:var(--navy);}
-
-    .page-header{background:var(--navy);padding:48px;position:relative;overflow:hidden;}
-    .page-header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 50%,rgba(99,102,241,0.25) 0%,transparent 60%);}
-    .header-inner{position:relative;z-index:1;max-width:1100px;margin:0 auto;}
-    .breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:16px;}
-    .breadcrumb a{color:rgba(255,255,255,0.5);text-decoration:none;}
-    .breadcrumb a:hover{color:#fff;}
-    .breadcrumb span{color:rgba(255,255,255,0.3);}
-    .page-header h1{font-size:32px;font-weight:800;color:#fff;margin-bottom:8px;}
-    .page-header h1 span{color:var(--accent);}
-    .page-header p{color:rgba(255,255,255,0.6);font-size:14px;}
-
-    .content{max-width:1100px;margin:0 auto;padding:40px 48px 64px;}
-    .section-label{font-size:12px;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:1px;margin-bottom:20px;}
-
-    .sem-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
-
-    .sem-card{
-      background:#fff;border-radius:16px;padding:32px 20px;
-      border:1.5px solid var(--border);cursor:pointer;
-      text-align:center;position:relative;overflow:hidden;
-      transition:all 0.25s ease;
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
-    .sem-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--purple),#818cf8);transform:scaleX(0);transition:transform 0.25s;}
-    .sem-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,0.1);border-color:rgba(99,102,241,0.3);}
-    .sem-card:hover::before{transform:scaleX(1);}
 
-    .sem-number{font-size:42px;font-weight:800;color:var(--purple);line-height:1;margin-bottom:8px;}
-    .sem-label{font-size:14px;font-weight:700;color:var(--navy);}
-    .sem-sub{font-size:12px;color:var(--gray);margin-top:4px;}
-    .sem-tag{display:inline-block;margin-top:16px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;background:rgba(99,102,241,0.08);color:var(--purple);}
+    :root {
+      --navy: #0f1f3d;
+      --purple: #6366f1;
+      --accent: #f59e0b;
+      --cream: #fafaf8;
+      --gray: #6b7280;
+      --border: #e5e7eb;
+    }
 
-    .active-sem .sem-number{color:#fff;}
-    .active-sem{background:linear-gradient(135deg,var(--purple),#818cf8);border-color:transparent;}
-    .active-sem .sem-label,.active-sem .sem-sub{color:rgba(255,255,255,0.85);}
-    .active-sem .sem-tag{background:rgba(255,255,255,0.2);color:#fff;}
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--cream);
+      min-height: 100vh;
+    }
 
-    @media(max-width:900px){.sem-grid{grid-template-columns:repeat(2,1fr);} nav,.content,.page-header{padding-left:20px;padding-right:20px;}}
-    @media(max-width:480px){.sem-grid{grid-template-columns:1fr;}}
+    nav {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 0 48px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .nav-logo {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-logo span {
+      width: 30px;
+      height: 30px;
+      background: var(--purple);
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .nav-back {
+      font-size: 13px;
+      color: var(--gray);
+      text-decoration: none;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+
+    .nav-back:hover {
+      color: var(--navy);
+      border-color: var(--navy);
+    }
+
+    .page-header {
+      background: var(--navy);
+      padding: 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 80% 50%, rgba(99, 102, 241, 0.25) 0%, transparent 60%);
+    }
+
+    .header-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 16px;
+    }
+
+    .breadcrumb a {
+      color: rgba(255, 255, 255, 0.5);
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      color: #fff;
+    }
+
+    .breadcrumb span {
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    .page-header h1 {
+      font-size: 32px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .page-header h1 span {
+      color: var(--accent);
+    }
+
+    .page-header p {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 14px;
+    }
+
+    .content {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 48px 64px;
+    }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--purple);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+    }
+
+    .sem-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .sem-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 32px 20px;
+      border: 1.5px solid var(--border);
+      cursor: pointer;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.25s ease;
+    }
+
+    .sem-card::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--purple), #818cf8);
+      transform: scaleX(0);
+      transition: transform 0.25s;
+    }
+
+    .sem-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+      border-color: rgba(99, 102, 241, 0.3);
+    }
+
+    .sem-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .sem-number {
+      font-size: 42px;
+      font-weight: 800;
+      color: var(--purple);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .sem-label {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .sem-tag {
+      display: inline-block;
+      margin-top: 16px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: rgba(99, 102, 241, 0.08);
+      color: var(--purple);
+    }
+
+    .active-sem .sem-number {
+      color: #fff;
+    }
+
+    .active-sem {
+      background: linear-gradient(135deg, var(--purple), #818cf8);
+      border-color: transparent;
+    }
+
+    .active-sem .sem-label {
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .active-sem .sem-tag {
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
+
+    @media(max-width:900px) {
+      .sem-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      nav,
+      .content,
+      .page-header {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+    }
+
+    @media(max-width:480px) {
+      .sem-grid {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
+
 <body>
   <nav>
     <div class="nav-logo"><span>I</span> IOEverse</div>
@@ -88,21 +299,20 @@
     document.getElementById('courseSubtitle').textContent = course + ' — Select a semester to browse subjects';
 
     const semesters = [
-      {num:'I',  label:'First Semester',   sub:'Foundation & Core Basics',   active:true},
-      {num:'II', label:'Second Semester',  sub:'Advanced Fundamentals',       active:false},
-      {num:'III',label:'Third Semester',   sub:'Intermediate Concepts',       active:false},
-      {num:'IV', label:'Fourth Semester',  sub:'Applied Engineering',         active:false},
-      {num:'V',  label:'Fifth Semester',   sub:'Specialization Begins',       active:false},
-      {num:'VI', label:'Sixth Semester',   sub:'Advanced Specialization',     active:false},
-      {num:'VII',label:'Seventh Semester', sub:'Project & Research',          active:false},
-      {num:'VIII',label:'Eighth Semester', sub:'Final Year & Thesis',         active:false},
+      { num: 'I', label: 'First Semester', active: true },
+      { num: 'II', label: 'Second Semester', active: false },
+      { num: 'III', label: 'Third Semester', active: false },
+      { num: 'IV', label: 'Fourth Semester', active: false },
+      { num: 'V', label: 'Fifth Semester', active: false },
+      { num: 'VI', label: 'Sixth Semester', active: false },
+      { num: 'VII', label: 'Seventh Semester', active: false },
+      { num: 'VIII', label: 'Eighth Semester', active: false },
     ];
 
     document.getElementById('semGrid').innerHTML = semesters.map(s => `
       <div class="sem-card ${s.active ? 'active-sem' : ''}" onclick="go('${s.num}')">
         <div class="sem-number">${s.num}</div>
         <div class="sem-label">${s.label}</div>
-        <div class="sem-sub">${s.sub}</div>
         <div class="sem-tag">${s.active ? 'Available' : 'Coming Soon'}</div>
       </div>`).join('');
 
@@ -111,7 +321,8 @@
       window.location.href = '/subject';
     }
   </script>
-  <script>window.CHAT_SUBJECT=null;</script>
+  <script>window.CHAT_SUBJECT = null;</script>
   <script src="/static/js/chat-widget.js"></script>
 </body>
+
 </html>
